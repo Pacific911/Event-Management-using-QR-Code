@@ -22,6 +22,7 @@ if (process.env.SSL === 'true') {
 }
 
 const sequelize = new Sequelize(db.url, dbConfig);
+sequelize.authenticate();
 
 async function con() {
   try {

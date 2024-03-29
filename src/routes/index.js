@@ -1,9 +1,14 @@
 import express from 'express';
-// eslint-disable-next-line no-unused-vars
-import sequelize from '../database/config/db';
+
+import userRoutes from './user.route';
+import companyRouter from './company.route';
+import eventRouter from './event.route';
 
 const routes = express.Router();
 
 routes.get('/', () => {});
+routes.use('/users', userRoutes);
+routes.use('/company', companyRouter);
+routes.use('/event', eventRouter);
 
 export default routes;
