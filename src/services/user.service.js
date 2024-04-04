@@ -8,8 +8,13 @@ async function getUserByEmail(email) {
   const user = await Users.findOne({ where: { email } });
   return user;
 }
+async function getUserById(id) {
+  const user = await Users.findOne({ where: { id } });
+  return user;
+}
 
 export default {
   createUser,
   getUserByEmail,
+  getUserById,
 };

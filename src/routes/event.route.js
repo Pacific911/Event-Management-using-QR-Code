@@ -5,6 +5,7 @@ import eventController from '../controllers/event.controller';
 import asyncwrapper from '../helpers/asyncwrapper';
 import isAuthenticated from '../middleware/authentication';
 import eventMiddleware from '../middleware/event.middleware';
+import checkPermission from '../middleware/checkPermission.middleware';
 
 const eventRouter = Router();
 eventRouter.post(
@@ -34,6 +35,15 @@ eventRouter.post(
   asyncwrapper(eventMiddleware.eventExists),
   asyncwrapper(eventMiddleware.attendeeExists),
   asyncwrapper(eventController.RegisterToEvent),
+);
+
+// approve event registration
+eventRouter.patch(
+  '/approve/:rid',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  asyncwrapper(eventMiddleware.attendeIdExists),
+  asyncwrapper(eventController.approveAttende),
 );
 
 export default eventRouter;
