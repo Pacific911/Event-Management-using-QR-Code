@@ -13,6 +13,22 @@ eventRouter.post(
   asyncwrapper(companyMiddleware.companyIdExists),
   asyncwrapper(eventController.addEvent),
 );
+eventRouter.delete(
+  '/delete/:eid',
+  asyncwrapper(eventMiddleware.eventExists),
+  asyncwrapper(eventController.deleteEvent),
+);
+eventRouter.get(
+  '/:eid',
+  asyncwrapper(eventMiddleware.eventExists),
+  asyncwrapper(eventController.viewSingleEvent),
+);
+eventRouter.patch(
+  '/update/:eid',
+  asyncwrapper(eventMiddleware.eventExists),
+  asyncwrapper(eventController.updateEvent),
+);
+eventRouter.get('/all', asyncwrapper(eventController.getAllEvents));
 eventRouter.post(
   '/register/:eid',
   asyncwrapper(eventMiddleware.eventExists),
