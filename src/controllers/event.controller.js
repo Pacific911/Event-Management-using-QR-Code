@@ -12,6 +12,59 @@ const addEvent = async (req, res) => {
     data,
   });
 };
+
+const deleteEvent = async (req, res) => {
+  try {
+    const EventId = req.params.eid;
+    await eventService.deleteEvent(EventId);
+    res.status(200).json({
+      code: 200,
+      message: 'successfully deleted',
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      code: 500,
+      message: 'An error occurred while deleting the event',
+      error: error.message,
+    });
+  }
+};
+
+const updateEvent = async (req, res) => {
+  try {
+    const EventId = req.params.eid;
+    const updatedDetails = req.body;
+    const updatedEvent = await eventService.updateEvent(
+      EventId,
+      updatedDetails,
+    );
+    res.status(200).json({
+      code: 200,
+      message: 'Event updated successfully',
+      data: updatedEvent,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      code: 500,
+      message: 'An error occurred while updating the event',
+      error: error.message,
+    });
+  }
+};
+
+const viewSingleEvent = async (req, res) => {
+  const { eid } = req.params;
+  const event = await eventService.getEventById(eid);
+  res.status(200).json({ code: 200, message: 'Event details', event });
+};
+
+const getAllEvents = async (req, res) => {
+  const events = await eventService.getAllEvents();
+  res.status(200).json({ code: 200, message: 'All Events', events });
+};
+
 const RegisterToEvent = async (req, res) => {
   const body = {
     ...req.body,
@@ -24,4 +77,11 @@ const RegisterToEvent = async (req, res) => {
     data,
   });
 };
-export default { addEvent, RegisterToEvent };
+export default {
+  addEvent,
+  RegisterToEvent,
+  deleteEvent,
+  updateEvent,
+  viewSingleEvent,
+  getAllEvents,
+};
