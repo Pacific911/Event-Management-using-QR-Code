@@ -12,5 +12,16 @@ companyRouter.post(
   asyncwrapper(companyMiddleware.companyExists),
   asyncwrapper(companyController.addCOmpany),
 );
+companyRouter.delete(
+  '/delete/:id',
+  asyncwrapper(companyController.deleteCompany),
+);
+companyRouter.get('/all', asyncwrapper(companyController.viewAllCompanies));
+companyRouter.get('/:cid', asyncwrapper(companyController.viewSingleCompany));
+companyRouter.patch(
+  '/update/:cid',
+  asyncwrapper(companyMiddleware.companyIdExists),
+  asyncwrapper(companyController.updateCompanies),
+);
 
 export default companyRouter;
