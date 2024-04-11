@@ -37,8 +37,8 @@ module.exports = {
         type: Sequelize.DATE,
       },
       role: {
-        type: DataTypes.ENUM('ADMIN', 'SUPER_ADMIN'),
-        defaultValue: 'ADMIN',
+        type: DataTypes.ENUM('ADMIN', 'ATTENDEE', 'SUPER_ADMIN'),
+        defaultValue: 'ATTENDEE',
       },
     });
   },

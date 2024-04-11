@@ -1,3 +1,5 @@
+import QRcode from 'qrcode';
+import sendEmail from '../helpers/mailer';
 import eventService from '../services/event.service';
 
 const addEvent = async (req, res) => {
@@ -65,6 +67,26 @@ const getAllEvents = async (req, res) => {
   res.status(200).json({ code: 200, message: 'All Events', events });
 };
 
+const approveAttende = async (req, res) => {
+  await eventService.approveAttende(req.params.rid).then(async (response) => {
+    // console.log(response[1]);
+    const recipientEmail = response[1][0].email;
+    const approvalCode = await QRcode.toDataURL(JSON.stringify(response[1][0]));
+    const mailOptions = {
+      from: 'nduwumwepacific@gmail.com',
+      to: recipientEmail,
+      subject: 'Event Registration approval',
+      html: `<p>Here is your QR code:</p><img src="${approvalCode}" alt="QR Code" />`,
+    };
+
+    await sendEmail(mailOptions);
+    res.status(200).json({
+      code: 200,
+      message: 'Registation approved',
+      data: response[1][0],
+    });
+  });
+};
 const RegisterToEvent = async (req, res) => {
   const body = {
     ...req.body,
@@ -84,4 +106,5 @@ export default {
   updateEvent,
   viewSingleEvent,
   getAllEvents,
+  approveAttende,
 };

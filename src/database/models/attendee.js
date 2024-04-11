@@ -30,6 +30,10 @@ const Attendees = sequelize.define('Attendees', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  status: {
+    type: Sequelize.ENUM('PENDING', 'APPROVED'),
+    defaultValue: 'PENDING',
+  },
   EventId: {
     type: DataTypes.UUID,
     allowNull: false,

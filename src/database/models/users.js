@@ -26,6 +26,10 @@ const Users = sequelize.define('Users', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  role: {
+    type: DataTypes.ENUM('ADMIN', 'ATTENDEE', 'SUPER_ADMIN'),
+    defaultValue: 'SUPER_ADMIN',
+  },
 });
 
 export default Users;

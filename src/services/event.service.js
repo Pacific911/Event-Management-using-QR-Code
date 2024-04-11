@@ -40,6 +40,22 @@ async function getAttendee(email, eventId) {
   });
   return user;
 }
+async function getAttendeeById(id) {
+  const user = await Attendees.findOne({
+    where: { id },
+  });
+  return user;
+}
+async function approveAttende(id) {
+  const user = await Attendees.update(
+    { status: 'APPROVED' },
+    {
+      where: { id },
+      returning: true,
+    },
+  );
+  return user;
+}
 export default {
   createEvent,
   deleteEvent,
@@ -48,4 +64,6 @@ export default {
   getAllEvents,
   registerToEvent,
   getAttendee,
+  getAttendeeById,
+  approveAttende,
 };

@@ -30,6 +30,16 @@ const Events = sequelize.define('Events', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  paymentEnabled: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  paymentAmount: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: '0',
+  },
   CompanyId: {
     type: DataTypes.UUID,
     allowNull: false,
