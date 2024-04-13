@@ -29,6 +29,12 @@ async function getAllEvents() {
   const user = await Events.findAll();
   return user;
 }
+async function bookSlot(id) {
+  const event = await Events.findOne({ where: { id } });
+  event.slotNumber -= 1;
+  await event.save();
+  return event;
+}
 
 async function registerToEvent(details) {
   const user = await Attendees.create(details);
@@ -43,12 +49,13 @@ async function getAttendee(email, eventId) {
 async function getAttendeeById(id) {
   const user = await Attendees.findOne({
     where: { id },
+    include: [{ model: Events, as: 'Event' }],
   });
   return user;
 }
-async function approveAttende(id) {
+async function attendeeStatus(id, status) {
   const user = await Attendees.update(
-    { status: 'APPROVED' },
+    { status },
     {
       where: { id },
       returning: true,
@@ -65,5 +72,6 @@ export default {
   registerToEvent,
   getAttendee,
   getAttendeeById,
-  approveAttende,
+  attendeeStatus,
+  bookSlot,
 };

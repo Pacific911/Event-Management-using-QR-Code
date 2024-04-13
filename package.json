@@ -72,6 +72,7 @@
     "qrcode": "^1.5.3",
     "redis": "^4.6.13",
     "redis-mock": "^0.56.3",
-    "sequelize": "^6.37.1"
+    "sequelize": "^6.37.1",
+    "stripe": "^15.1.0"
   }
 }

@@ -51,10 +51,11 @@ const login = async (req, res, next) => {
         }
         const data = {
           id: user.id,
-          username: user.username,
+          names: user.names,
           email: user.email,
           role: user.role,
           status: user.status,
+          telephone: user.telephone,
         };
         const token = generateToken(data);
         req.user = user;

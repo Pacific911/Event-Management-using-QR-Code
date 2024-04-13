@@ -2,8 +2,8 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn('Attendees', 'status', {
-      type: Sequelize.ENUM('PENDING', 'APPROVED'),
-      defaultValue: 'PENDING',
+      type: Sequelize.ENUM('PAYMENT_REQUIRED', 'CONFIRMED', 'PAYMENT_FAILED'),
+      defaultValue: 'CONFIRMED',
     });
   },
 

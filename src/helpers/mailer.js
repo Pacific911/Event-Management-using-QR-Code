@@ -1,14 +1,7 @@
 import transporter from '../services/email.service';
 
 const sendEmail = async (mailConfigurations) => {
-  const result = await transporter(
-    // mailConfigurations,
-    {
-      email: mailConfigurations.to,
-      subject: mailConfigurations.subject,
-      content: mailConfigurations.html,
-    },
-  );
+  const result = await transporter.sendMail(mailConfigurations);
   return result;
 };
 
