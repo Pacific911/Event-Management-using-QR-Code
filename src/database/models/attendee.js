@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/db';
+import Events from './events';
 
 const Attendees = sequelize.define('Attendees', {
   id: {
@@ -31,8 +32,8 @@ const Attendees = sequelize.define('Attendees', {
     allowNull: false,
   },
   status: {
-    type: Sequelize.ENUM('PENDING', 'APPROVED'),
-    defaultValue: 'PENDING',
+    type: Sequelize.ENUM('PAYMENT_REQUIRED', 'CONFIRMED', 'PAYMENT_FAILED'),
+    defaultValue: 'CONFIRMED',
   },
   EventId: {
     type: DataTypes.UUID,
@@ -45,6 +46,6 @@ const Attendees = sequelize.define('Attendees', {
   },
 });
 
-// Attendees.belongsTo()
+Attendees.belongsTo(Events, { as: 'Event', onDelete: 'cascade' });
 
 export default Attendees;

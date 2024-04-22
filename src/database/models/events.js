@@ -50,4 +50,5 @@ const Events = sequelize.define('Events', {
     onDelete: 'CASCADE',
   },
 });
+
 export default Events;

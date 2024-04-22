@@ -24,6 +24,12 @@ eventRouter.get(
   asyncwrapper(eventMiddleware.eventExists),
   asyncwrapper(eventController.viewSingleEvent),
 );
+eventRouter.get(
+  '/attendee/:rid',
+  isAuthenticated,
+  asyncwrapper(eventMiddleware.attendeIdExists),
+  asyncwrapper(eventController.viewSingAttendee),
+);
 eventRouter.patch(
   '/update/:eid',
   asyncwrapper(eventMiddleware.eventExists),
@@ -32,8 +38,11 @@ eventRouter.patch(
 eventRouter.get('/all', asyncwrapper(eventController.getAllEvents));
 eventRouter.post(
   '/register/:eid',
+  isAuthenticated,
+  checkPermission('ATTENDEE'),
   asyncwrapper(eventMiddleware.eventExists),
   asyncwrapper(eventMiddleware.attendeeExists),
+  asyncwrapper(eventMiddleware.eventSlotNumberAvailable),
   asyncwrapper(eventController.RegisterToEvent),
 );
 
