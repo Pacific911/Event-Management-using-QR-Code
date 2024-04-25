@@ -7,5 +7,12 @@ const userExists = async (req, res, next) => {
   }
   return next();
 };
+const userEmailExists = async (req, res, next) => {
+  const data = await userService.getUserByEmail(req.body.email);
+  if (data) {
+    return res.status(400).json({ code: 400, message: 'User already exist' });
+  }
+  return next();
+};
 
-export default { userExists };
+export default { userExists, userEmailExists };

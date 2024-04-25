@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/db';
+import EventImages from './eventimages';
 
 const Events = sequelize.define('Events', {
   id: {
@@ -51,4 +52,5 @@ const Events = sequelize.define('Events', {
   },
 });
 
+Events.hasMany(EventImages, { as: 'EventImages', onDelete: 'cascade' });
 export default Events;

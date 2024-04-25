@@ -9,29 +9,13 @@ const signUp = async (req, res, next) => {
     req.login(user, async () => {
       const body = {
         id: user.id,
-        username: user.username,
+        names: user.username,
         email: user.email,
         telephone: user.telephone,
+        role: user.role,
+        status: user.status,
       };
-      //   const dataprofiles = {
-      //     userId: body.id,
-      //     username: '',
-      //     email: '',
-      //     telephone: '',
-      //     password:'',
-      //   };
-      //   await userProfileServices.createUserProfiles(dataprofiles);
       const token = generateToken(body);
-      //   redisClient.setEx(req.user.id, 86400, token);
-
-      //   await notificationUtils.signup(req.user);
-      //   notificationServices.sendNotification(
-      //     req.user.id,
-      //     'Account is created successfully',
-      //     'User registration',
-      //     'low',
-      //   );
-
       res
         .status(201)
         .header('authenticate', token)

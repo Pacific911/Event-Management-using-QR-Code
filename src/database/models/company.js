@@ -2,6 +2,7 @@ import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/db';
 import Users from './users';
 import Events from './events';
+import CompanyImages from './companyImages';
 
 const Companies = sequelize.define('Companies', {
   id: {
@@ -41,4 +42,6 @@ const Companies = sequelize.define('Companies', {
 
 Companies.belongsTo(Users, { as: 'User', onDelete: 'cascade' });
 Companies.hasMany(Events, { as: 'Events', onDelete: 'cascade' });
+Companies.hasMany(CompanyImages, { as: 'CompanyImages', onDelete: 'cascade' });
+Events.belongsTo(Companies, { as: 'Company' });
 export default Companies;

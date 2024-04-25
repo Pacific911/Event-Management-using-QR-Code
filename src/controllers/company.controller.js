@@ -1,21 +1,36 @@
 import companyService from '../services/company.service';
+import companyImageService from '../services/companyImage.service';
+import uploadToCloudinaryService from '../services/cloudinary.service';
 
 const addCOmpany = async (req, res) => {
+  const imageToUpload = req.files;
+  if (imageToUpload.length < 1) {
+    return res.status(400).json({ message: 'Company must have an image' });
+  }
+  const { image } = await uploadToCloudinaryService.uploadToCloudinary(
+    imageToUpload[0].path,
+  );
   const body = {
     ...req.body,
     UserId: req.user.id,
   };
   const data = await companyService.createCompany(body);
+  const imageBody = {
+    url: image.secure_url,
+    CompanyId: data.id,
+  };
+  const CompanyImage = await companyImageService.addImage(imageBody);
   return res.status(200).json({
     code: 200,
     message: 'successfully registered your company',
     data,
+    CompanyImage,
   });
 };
 
 const deleteCompany = async (req, res) => {
   try {
-    const CompanyId = req.params.id;
+    const CompanyId = req.params.cid;
     await companyService.deleteCompany(CompanyId);
     res.status(200).json({
       code: 200,
