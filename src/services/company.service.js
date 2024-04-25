@@ -1,5 +1,6 @@
 import Companies from '../database/models/company';
 import Events from '../database/models/events';
+import companyImageService from './companyImage.service';
 
 async function createCompany(details) {
   const user = await Companies.create(details);
@@ -22,8 +23,13 @@ async function getCompanyById(id) {
   return user;
 }
 async function deleteCompany(id) {
-  const user = await Companies.destroy({ where: { id } });
-  return user;
+  const company = await Companies.findOne({ where: { id } });
+  const images = await company.getCompanyImages();
+  const [destroyResult, deleteImage] = await Promise.all([
+    Companies.destroy({ where: { id } }),
+    companyImageService.deleteUrl(images[0].url),
+  ]);
+  return { destroyResult, deleteImage };
 }
 async function getAllCompanies() {
   const user = await Companies.findAll({

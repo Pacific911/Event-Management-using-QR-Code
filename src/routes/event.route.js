@@ -6,21 +6,28 @@ import asyncwrapper from '../helpers/asyncwrapper';
 import isAuthenticated from '../middleware/authentication';
 import eventMiddleware from '../middleware/event.middleware';
 import checkPermission from '../middleware/checkPermission.middleware';
+import Upload from '../helpers/multer.helper';
+import validate from '../middleware/validation.middleware';
+import eventSchema from '../utils/validationSchemas/eventSchema';
 
 const eventRouter = Router();
 eventRouter.post(
   '/add/:cid',
+  Upload,
+  validate(eventSchema.NewEvent),
   isAuthenticated,
   asyncwrapper(companyMiddleware.companyIdExists),
   asyncwrapper(eventController.addEvent),
 );
 eventRouter.delete(
   '/delete/:eid',
+  isAuthenticated,
   asyncwrapper(eventMiddleware.eventExists),
   asyncwrapper(eventController.deleteEvent),
 );
 eventRouter.get(
   '/:eid',
+  isAuthenticated,
   asyncwrapper(eventMiddleware.eventExists),
   asyncwrapper(eventController.viewSingleEvent),
 );
@@ -36,6 +43,14 @@ eventRouter.patch(
   asyncwrapper(eventController.updateEvent),
 );
 eventRouter.get('/all', asyncwrapper(eventController.getAllEvents));
+
+eventRouter.get(
+  '/:eid/attendees',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  asyncwrapper(eventMiddleware.eventExists),
+  asyncwrapper(eventController.viewEventAttendees),
+);
 eventRouter.post(
   '/register/:eid',
   isAuthenticated,
