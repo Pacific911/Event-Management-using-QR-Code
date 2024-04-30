@@ -8,12 +8,12 @@ const eventExists = async (req, res, next) => {
       .json({ code: 400, message: 'the event does not exist' });
   }
   req.event = data;
-  const { UserId } = data.Company;
-  if (UserId !== req.user.id) {
-    return res
-      .status(400)
-      .json({ code: 400, message: 'Unauthorized to this event' });
-  }
+  // const { UserId } = data.Company;
+  // if (UserId !== req.user.id) {
+  //   return res
+  //     .status(400)
+  //     .json({ code: 400, message: 'Unauthorized to this event' });
+  // }
   return next();
 };
 const attendeIdExists = async (req, res, next) => {

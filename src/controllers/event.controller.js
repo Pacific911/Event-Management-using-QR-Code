@@ -103,7 +103,7 @@ const viewEventAttendees = async (req, res) => {
 };
 
 const RegisterToEvent = async (req, res) => {
-  const { paymentEnabled } = req.event.dataValues;
+  const { paymentEnabled, name } = req.event.dataValues;
   const { role, id, iat, ...userData } = req.user;
   const body = {
     ...userData,
@@ -120,11 +120,12 @@ const RegisterToEvent = async (req, res) => {
   if (!paymentEnabled) {
     const { createdAt, updatedAt, ...restData } = data.dataValues;
     const approvalCode = await QRcode.toDataURL(JSON.stringify(restData));
-    const eBody = emailBody.qrCodeBody(approvalCode);
+    const eBody = emailBody.qrCodeBody(approvalCode, req.user.names, name);
     const mailOptions = {
       from: 'princeineza@gmail.com',
       to: req.user.email,
       subject: 'Event Registration approval',
+      attachDataUrls: true,
       html: eBody,
     };
     await sendEmail(mailOptions);

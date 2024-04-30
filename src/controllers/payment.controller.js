@@ -68,6 +68,7 @@ const webhook = async (req) => {
         const mailOptions = {
           from: 'princeineza@gmail.com',
           to: data.metadata.email,
+          attachDataUrls: true,
           subject: 'Event Registration approval',
           html: eBody,
         };
