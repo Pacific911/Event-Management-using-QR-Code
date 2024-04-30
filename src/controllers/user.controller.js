@@ -9,11 +9,10 @@ const signUp = async (req, res, next) => {
     req.login(user, async () => {
       const body = {
         id: user.id,
-        names: user.username,
+        names: user.names,
         email: user.email,
         telephone: user.telephone,
         role: user.role,
-        status: user.status,
       };
       const token = generateToken(body);
       res
@@ -38,7 +37,6 @@ const login = async (req, res, next) => {
           names: user.names,
           email: user.email,
           role: user.role,
-          status: user.status,
           telephone: user.telephone,
         };
         const token = generateToken(data);
