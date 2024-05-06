@@ -50,6 +50,10 @@ const viewAllCompanies = async (req, res) => {
   const companies = await companyService.getAllCompanies();
   res.status(200).json({ code: 200, message: 'All companies', companies });
 };
+const viewUserCompanies = async (req, res) => {
+  const companies = await companyService.getUserCompanies(req.user.id);
+  res.status(200).json({ code: 200, message: 'All user companies', companies });
+};
 
 const viewSingleCompany = async (req, res) => {
   const { cid } = req.params;
@@ -86,4 +90,5 @@ export default {
   viewAllCompanies,
   viewSingleCompany,
   updateCompanies,
+  viewUserCompanies,
 };

@@ -10,6 +10,10 @@ async function getCompanyByName(name) {
   const user = await Companies.findOne({ where: { name } });
   return user;
 }
+async function getUserCompanies(uid) {
+  const companies = await Companies.findOne({ where: { UserId: uid } });
+  return companies;
+}
 async function getCompanyById(id) {
   const user = await Companies.findOne({
     where: { id },
@@ -61,4 +65,5 @@ export default {
   deleteCompany,
   getAllCompanies,
   updateCompany,
+  getUserCompanies,
 };

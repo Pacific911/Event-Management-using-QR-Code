@@ -27,6 +27,12 @@ companyRouter.delete(
   asyncwrapper(companyController.deleteCompany),
 );
 companyRouter.get('/all', asyncwrapper(companyController.viewAllCompanies));
+companyRouter.get(
+  '/user/all',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  asyncwrapper(companyController.viewAllCompanies),
+);
 companyRouter.get('/:cid', asyncwrapper(companyController.viewSingleCompany));
 companyRouter.get(
   '/events/:cid',
