@@ -40,6 +40,11 @@ companyRouter.get(
   asyncwrapper(companyMiddleware.companyIdExists),
   asyncwrapper(eventController.getCompanyEvents),
 );
+companyRouter.get(
+  '/',
+  isAuthenticated,
+  asyncwrapper(companyController.viewUserCompanies),
+);
 companyRouter.patch(
   '/update/:cid',
   asyncwrapper(companyMiddleware.companyIdExists),

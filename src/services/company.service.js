@@ -11,7 +11,7 @@ async function getCompanyByName(name) {
   return user;
 }
 async function getUserCompanies(uid) {
-  const companies = await Companies.findOne({ where: { UserId: uid } });
+  const companies = await Companies.findAll({ where: { UserId: uid } });
   return companies;
 }
 async function getCompanyById(id) {
