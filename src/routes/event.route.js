@@ -19,6 +19,7 @@ eventRouter.post(
   asyncwrapper(companyMiddleware.companyIdExists),
   asyncwrapper(eventController.addEvent),
 );
+eventRouter.get('/all', asyncwrapper(eventController.getAllEvents));
 eventRouter.delete(
   '/delete/:eid',
   isAuthenticated,
@@ -42,7 +43,6 @@ eventRouter.patch(
   asyncwrapper(eventMiddleware.eventExists),
   asyncwrapper(eventController.updateEvent),
 );
-eventRouter.get('/all', asyncwrapper(eventController.getAllEvents));
 
 eventRouter.get(
   '/:eid/attendees',
