@@ -27,6 +27,12 @@ eventRouter.delete(
   asyncwrapper(eventController.deleteEvent),
 );
 eventRouter.get(
+  '/admin',
+  isAuthenticated,
+  checkPermission('ADMIN'),
+  asyncwrapper(eventController.getUserEvents),
+);
+eventRouter.get(
   '/:eid',
   isAuthenticated,
   asyncwrapper(eventMiddleware.eventExists),

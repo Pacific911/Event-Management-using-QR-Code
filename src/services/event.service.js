@@ -38,6 +38,10 @@ async function getEventById(id) {
         model: Companies,
         as: 'Company',
       },
+      {
+        model: EventImages,
+        as: 'EventImages',
+      },
     ],
   });
   return user;
@@ -48,6 +52,22 @@ async function getAllEvents() {
       {
         model: EventImages,
         as: 'EventImages',
+      },
+    ],
+  });
+  return user;
+}
+async function getUserEvents(uid) {
+  const user = await Events.findAll({
+    include: [
+      {
+        model: EventImages,
+        as: 'EventImages',
+      },
+      {
+        model: Companies,
+        as: 'Company',
+        where: { UserId: uid },
       },
     ],
   });
@@ -119,4 +139,5 @@ export default {
   bookSlot,
   getEventAttendees,
   getCompanyEvents,
+  getUserEvents,
 };

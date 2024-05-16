@@ -87,6 +87,11 @@ const getAllEvents = async (req, res) => {
   const events = await eventService.getAllEvents();
   res.status(200).json({ code: 200, message: 'All Events', events });
 };
+const getUserEvents = async (req, res) => {
+  const { id } = req.user;
+  const events = await eventService.getUserEvents(id);
+  res.status(200).json({ code: 200, message: 'All User Events', events });
+};
 const getCompanyEvents = async (req, res) => {
   const { cid } = req.params;
   const events = await eventService.getCompanyEvents(cid);
@@ -147,4 +152,5 @@ export default {
   viewEventAttendees,
   viewSingAttendee,
   getCompanyEvents,
+  getUserEvents,
 };
