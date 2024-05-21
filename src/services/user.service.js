@@ -13,8 +13,16 @@ async function getUserById(id) {
   return user;
 }
 
+async function getAllUsers() {
+  const user = await Users.findAll({
+    order: [['createdAt', 'DESC']],
+  });
+  return user;
+}
+
 export default {
   createUser,
   getUserByEmail,
   getUserById,
+  getAllUsers,
 };
