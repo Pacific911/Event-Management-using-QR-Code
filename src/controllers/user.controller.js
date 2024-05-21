@@ -1,5 +1,6 @@
 import passport from 'passport';
 import { generateToken } from '../utils/token';
+import userService from '../services/user.service';
 
 const signUp = async (req, res, next) => {
   passport.authenticate('signup', { session: false }, (err, user) => {
@@ -55,5 +56,17 @@ const login = async (req, res, next) => {
     },
   )(req, res, next);
 };
+const fetchAllUsers = async (req, res) => {
+  try {
+    const users = await userService.getAllUsers();
+    res.status(200).json({ code: 200, message: 'All users', users });
+  } catch (error) {
+    res.status(500).json({
+      code: 500,
+      message: 'Server Error',
+      error: error.message,
+    });
+  }
+};
 
-export default { signUp, login };
+export default { signUp, login, fetchAllUsers };
