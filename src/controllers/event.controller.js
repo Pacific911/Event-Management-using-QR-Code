@@ -106,6 +106,24 @@ const viewEventAttendees = async (req, res) => {
     .status(200)
     .json({ code: 200, message: 'All event attendees retrieved', data });
 };
+const checkAttendeeRegistered = async (req, res) => {
+  const { eid } = req.params;
+  const data = await eventService.getAttendee(req.user.email, eid);
+  if (!data) {
+    return res.status(200).json({
+      code: 200,
+      message: ' you have not yet registered to this event',
+      data: false,
+      event: data,
+    });
+  }
+  return res.status(200).json({
+    code: 200,
+    message: ' you have already registered to this event',
+    data: true,
+    event: data,
+  });
+};
 
 const RegisterToEvent = async (req, res) => {
   const { paymentEnabled, name } = req.event.dataValues;
@@ -153,4 +171,5 @@ export default {
   viewSingAttendee,
   getCompanyEvents,
   getUserEvents,
+  checkAttendeeRegistered,
 };

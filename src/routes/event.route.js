@@ -75,5 +75,11 @@ eventRouter.patch(
   asyncwrapper(eventMiddleware.attendeIdExists),
   asyncwrapper(eventController.approveAttende),
 );
+eventRouter.get(
+  '/checkregister/:eid',
+  isAuthenticated,
+  checkPermission('ATTENDEE'),
+  asyncwrapper(eventController.checkAttendeeRegistered),
+);
 
 export default eventRouter;

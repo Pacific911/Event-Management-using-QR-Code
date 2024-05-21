@@ -13,9 +13,9 @@ const generateToken = async (req, res) => {
 };
 
 const makePayment = async (req, res) => {
-  const { token } = req.body;
+  const { id } = req.body;
   const { rid } = req.params;
-  const payMethod = await paymentService.paymentMethod(token.id);
+  const payMethod = await paymentService.paymentMethod(id);
   const payAmount = req.attendee.Event.paymentAmount;
   const { createdAt, updatedAt, Event, ...metadata } = req.attendee.dataValues;
   const chargeBody = {
@@ -37,6 +37,7 @@ const makePayment = async (req, res) => {
     });
   }
   await eventService.bookSlot(req.attendee.EventId);
+  console.log(req.attendee.EventId);
   return res
     .status(200)
     .json({ code: '200', Message: 'Payment succedded', paymentData });
