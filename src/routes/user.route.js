@@ -9,6 +9,7 @@ import {
 } from '../utils/validationSchemas/authSchema';
 import userMiddleware from '../middleware/user.middleware';
 import isAuthenticated from '../middleware/authentication';
+import checkPermission from '../middleware/checkPermission.middleware';
 
 const userRouter = Router();
 userRouter.post(
