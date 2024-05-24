@@ -15,16 +15,18 @@ const generateToken = async (req, res) => {
 const makePayment = async (req, res) => {
   const { id } = req.body;
   const { rid } = req.params;
+  const customer = await paymentService.findOrCreateStripeCustomer(req.user);
   const payMethod = await paymentService.paymentMethod(id);
   const payAmount = req.attendee.Event.paymentAmount;
   const { createdAt, updatedAt, Event, ...metadata } = req.attendee.dataValues;
   const chargeBody = {
     amount: payAmount,
     method: payMethod.id,
+    eventName: req.attendee.Event.dataValues.name,
     ...metadata,
     attendeeId: rid,
   };
-  const paymentData = await paymentService.payment(chargeBody);
+  const paymentData = await paymentService.payment(chargeBody, customer);
   if (
     paymentData.status === 'requires_action' &&
     paymentData.next_action.type === 'redirect_to_url'
@@ -65,7 +67,11 @@ const webhook = async (req) => {
           updateAttendee[1][0].dataValues;
 
         const approvalCode = await QRcode.toDataURL(JSON.stringify(restData)); // generate qrcode and send email
-        const eBody = emailBody.qrCodeBody(approvalCode);
+        const eBody = emailBody.qrCodeBody(
+          approvalCode,
+          data.metadata.names,
+          data.metadata.eventName,
+        );
         const mailOptions = {
           from: 'princeineza@gmail.com',
           to: data.metadata.email,
