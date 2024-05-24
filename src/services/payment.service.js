@@ -23,12 +23,13 @@ async function paymentMethod(tokenId) {
   return methodId;
 }
 
-async function payment(chargeBody) {
+async function payment(chargeBody, customer) {
   const { DEPLOYED_URL } = process.env;
   const paymentIntent = await stripe.paymentIntents.create({
     amount: chargeBody.amount * 100,
     currency: 'rwf',
     payment_method: chargeBody.method,
+    customer: customer.id,
     capture_method: 'automatic',
     confirm: true,
     metadata: chargeBody,
@@ -45,6 +46,7 @@ async function stripeListener(event) {
     const body = {
       status: object.status,
       metadata: object.metadata,
+      customer: object.customer,
     };
     return body;
   }
@@ -64,10 +66,28 @@ async function getStatus(eventStatus) {
   return 'PAYMENT_FAILED';
 }
 
+async function findOrCreateStripeCustomer(user) {
+  const customers = await stripe.customers.list({
+    email: user.email,
+    limit: 1,
+  });
+
+  if (customers.data.length > 0) {
+    return customers.data[0];
+  }
+  // If no customer exists, create a new customer
+  const customer = await stripe.customers.create({
+    name: user.names,
+    email: user.email,
+  });
+  return customer;
+}
+
 export default {
   stripeToken,
   paymentMethod,
   payment,
   getStatus,
   stripeListener,
+  findOrCreateStripeCustomer,
 };
