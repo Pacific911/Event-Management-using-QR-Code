@@ -1,3 +1,4 @@
+import Users from '../database/models/users';
 import adminService from '../services/admin.service';
 
 const changeUserRole = async (req, res) => {
@@ -8,4 +9,21 @@ const changeUserRole = async (req, res) => {
   res.status(200).json({ code: 200, message: 'User role updated', data });
 };
 
-export default { changeUserRole };
+const changeUserStatus = async (req, res) => {
+  try {
+    const { uid: userId } = req.params;
+
+    const userData = await Users.findOne({ where: { id: userId } });
+
+    const newStatus = !userData.deleted;
+    const updatedStatus = await Users.update(
+      { deleted: newStatus },
+      { where: { id: userId } },
+    );
+    return res.status(200).json({ user: updatedStatus });
+  } catch (error) {
+    return res.status(500).json({ error: 'Server error' });
+  }
+};
+
+export default { changeUserRole, changeUserStatus };

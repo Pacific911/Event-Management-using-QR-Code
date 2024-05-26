@@ -30,6 +30,10 @@ const Users = sequelize.define('Users', {
     type: DataTypes.ENUM('ADMIN', 'ATTENDEE', 'SUPER_ADMIN'),
     defaultValue: 'ATTENDEE',
   },
+  deleted: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 export default Users;

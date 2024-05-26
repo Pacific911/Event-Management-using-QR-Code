@@ -14,4 +14,12 @@ adminRoute.patch(
   asyncwrapper(userMiddleware.userExists),
   asyncwrapper(adminController.changeUserRole),
 );
+
+adminRoute.patch(
+  '/status/:uid',
+  isAuthenticated,
+  checkPermission('SUPER_ADMIN'),
+  asyncwrapper(userMiddleware.userExists),
+  asyncwrapper(adminController.changeUserStatus),
+);
 export default adminRoute;
