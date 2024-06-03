@@ -72,7 +72,9 @@ const webhook = async (req) => {
           data.metadata.names,
           data.metadata.eventName,
         );
-        console.log(data.metadata);
+        console.log(eBody);
+        console.log(data.metadata.names);
+        console.log(data.metadata.eventName);
         const mailOptions = {
           from: 'princeineza@gmail.com',
           to: data.metadata.email,
